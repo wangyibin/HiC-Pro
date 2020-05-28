@@ -78,9 +78,15 @@ for RES_FILE_NAME in ${DATA_DIR}/*;do
         mkdir -p ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}
         echo "Logs: ${ldir}/heatmap_${bsize}.log"
         
+        
         abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
         iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
         prefix=$(basename ${iced_matrix} | sed 's/.matrix//g')
+        if [[ ! -e abs_bed && ! -e iced_matrix ]]; then
+            cmd="generate_new_resolution.py -i ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -b ${bsize} -c ${GENOME_SIZE_FILE} -o ${DATA_DIR}/${RES_FILE_NAME}/ "
+            exec_cmd ${cmd} >> ${ldir}/heatmap_${bsize}.log 2>&1
+
+        fi
         #ln -s ${abs_bed} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
         #ln -s ${iced_matrix} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
 
@@ -103,8 +109,9 @@ for RES_FILE_NAME in ${DATA_DIR}/*;do
                     fi
                 fi
             done
+            if [[ ! -z $big_suffix ]]; then
             big_suffix="-b "${big_suffix}
-
+            fi
         fi
 
         cmd1="hicConvertFormat -m ${iced_matrix} --bedFileHicpro ${abs_bed} --inputFormat hicpro --outputFormat cool -o ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/${prefix}.cool && "

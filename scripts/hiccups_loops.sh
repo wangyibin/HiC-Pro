@@ -62,6 +62,12 @@ if [[ ! -e $GENOME_FRAGMENT ]]; then
     fi
 fi
 
+join(){
+    local IFS=$1;
+    shift;
+    echo $* | python -c "import sys;l=[i.strip().split() for i in sys.stdin][0];print(','.join(l))"
+}
+
 
 for RES_FILE_NAME in ${DATA_DIR}/*
 do
@@ -73,15 +79,13 @@ do
     ldir=${LOGS_DIR}/${RES_FILE_NAME}
     mkdir -p ${ldir}
     echo "Logs: ${ldir}/hiccups_loops.log"
-    BIN_SIZE=$(IFS=",";echo "${LOOPS_BIN_SIZE[*]}")
+    BIN_SIZE=$(join , ${LOOPS_BIN_SIZE[*]})
     prefix=`basename ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs`
     if [ -d ${DATA_DIR}/${RES_FILE_NAME} ]; then
         cmd1="hicpro2juicebox.sh -i ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -g ${GENOME_SIZE_FILE} -j ${JUICETOOLS} -r ${GENOME_FRAGMENT_FILE} -o ${LOOPS_DIR}/${RES_FILE_NAME}/ && "
-        cmd2="IFS=, && java -jar ${JUICETOOLS} hiccups --cpu --threads ${N_CPU} -r ${BIN_SIZE} ${LOOPS_DIR}/${RES_FILE_NAME}/${prefix}.hic ${LOOPS_DIR}/${RES_FILE_NAME}/hiccups"
+        cmd2="java -jar ${JUICETOOLS} hiccups --cpu --threads ${N_CPU} -r ${BIN_SIZE} ${LOOPS_DIR}/${RES_FILE_NAME}/${prefix}.hic ${LOOPS_DIR}/${RES_FILE_NAME}/hiccups"
         cmd=${cmd1}${cmd2}
-        exec_cmd $cmd >> ${ldir}/hiccups_loops.log 2>&1
-
-        
+        exec_cmd $cmd >> ${ldir}/hiccups_loops.log 2>&1   
         
     fi
 

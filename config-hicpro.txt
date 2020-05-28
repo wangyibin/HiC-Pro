@@ -103,7 +103,7 @@ EPS = 0.1
 #######################################################################
 HEATMAP_BIN_SIZE = 100000 500000 1000000
 HEATMAP_COLORMAP = RdYlBu_r ## cividis ... colormaps in matplotlib
-
+HEATMAP_BIGWIG = compartments gene TE
 CWORLD_SPECIES=
 
 TAD_BIN_SIZE = 
