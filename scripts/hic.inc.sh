@@ -189,6 +189,7 @@ get_hic_files()
     local idir=$1
     local ext=$2
     if [ ! -z "$PBS_ARRAYID" ]; then TASKID=$PBS_ARRAYID; fi
+    if [ ! -z "$PBS_ARRAY_INDEX" ]; then TASKID=$PBS_ARRAY_INDEX; fi
     if [ ! -z "$SGE_TASK_ID" ]; then TASKID=$SGE_TASK_ID; fi
     if [ ! -z "$SLURM_ARRAY_TASK_ID" ]; then TASKID=$SLURM_ARRAY_TASK_ID; fi
     if [ ! -z "$LSB_JOBINDEX" ]; then TASKID=$LSB_JOBINDEX; fi

@@ -31,6 +31,8 @@ quality_checks : hic_qc
 
 build_contact_maps: build_raw_maps
 
+tdgp_analysis: compartments heatmap tad loops qc
+com_heatmap: compartments heatmap
 
 ######################################
 ## System
@@ -54,6 +56,9 @@ ifdef MAKE_OPTS
 else
 	@$(CLUSTER_SCRIPT) -c $(CONFIG_FILE)
 endif
+
+make_tdgp_cluster_script: config_check init
+	@$(TDGP_CLUSTER_SCRIPT) -c $(CONFIG_FILE)
 
 clean:
 	@/bin/rm -rf $(LOGS_DIR)/*
@@ -192,4 +197,57 @@ ice_norm:
 	@date 
 	@echo "Run ICE Normalization ..." 
 	@$(SCRIPTS)/ice_norm.sh -c $(CONFIG_FILE)
+	@echo
+######################################
+## compartments and heatmap
+##
+######################################
 
+compartments:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run compartments analysis ..." 
+	@$(SCRIPTS)/compartments.sh -c $(CONFIG_FILE)
+	@echo
+
+heatmap:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run heatmap plotting ..." 
+	@$(SCRIPTS)/heatmap.sh -c $(CONFIG_FILE)
+	@echo
+
+######################################
+## hitad
+##
+######################################
+
+tad:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run tad analysis ..." 
+	@$(SCRIPTS)/tad.sh -c $(CONFIG_FILE)
+	@echo
+
+######################################
+## loops
+##
+######################################
+
+loops:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run loops analysis ..." 
+	@$(SCRIPTS)/hiccups_loops.sh -c $(CONFIG_FILE)
+	@echo
+
+######################################
+## qc
+##
+######################################
+qc:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run qc analysis ..." 
+	@$(SCRIPTS)/qc.sh -c $(CONFIG_FILE)	
+	@echo

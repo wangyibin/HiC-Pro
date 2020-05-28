@@ -8,6 +8,7 @@ TMP_DIR = tmp
 LOGS_DIR = logs
 BOWTIE2_OUTPUT_DIR = bowtie_results
 MAPC_OUTPUT = hic_results
+TDGP_OUTPUT = tdgp_results
 RAW_DIR = rawdata
 
 #######################################################################
@@ -96,3 +97,15 @@ MAX_ITER = 100
 FILTER_LOW_COUNT_PERC = 0.02
 FILTER_HIGH_COUNT_PERC = 0
 EPS = 0.1
+
+#######################################################################
+## TDGP
+#######################################################################
+HEATMAP_BIN_SIZE = 100000 500000 1000000
+HEATMAP_COLORMAP = RdYlBu_r ## cividis ... colormaps in matplotlib
+
+CWORLD_SPECIES=
+
+TAD_BIN_SIZE = 
+
+TE_DATA = 

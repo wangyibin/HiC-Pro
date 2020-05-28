@@ -75,9 +75,9 @@ then
 #$ -m ae
 #$ -j y
 #$ -N HiCpro_s1_${JOB_NAME}
-##$ -q ${JOB_QUEUE}
+#$ -q ${JOB_QUEUE}
 #$ -V
-#$ -pe shm ${N_CPU}
+#$ -pe mpi ${N_CPU}
 #$ -cwd
 EOF
     if [[ $count -gt 1 ]]; then
@@ -117,8 +117,8 @@ then
 #$ -M ${JOB_MAIL}
 #$ -m ae
 #$ -j y
-#$ -N HiCpro_s2_${JOB_SUFFIX}
-##$ -q ${JOB_QUEUE}
+#$ -N HiCpro_s2_${JOB_NAME}
+#$ -q ${JOB_QUEUE}
 #$ -V
 #$ -cwd
 

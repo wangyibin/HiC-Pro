@@ -86,7 +86,9 @@ EOF
     fi
 
 cat >> ${torque_script} <<EOF
-cd \$PBS_O_WORKDIR
+if [ ! -z \$PBS_O_WORKDIR ]; then
+    cd \$PBS_O_WORKDIR
+fi
 FASTQFILE=\$PBS_O_WORKDIR/$inputfile; export FASTQFILE
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt $make_target 2>&1
 EOF
@@ -121,8 +123,9 @@ then
 #PBS -N HiCpro_s2_${JOB_NAME}
 #PBS -q ${JOB_QUEUE}
 #PBS -V
-
-cd \$PBS_O_WORKDIR
+if [ ! -z \$PBS_O_WORKDIR ]; then
+    cd \$PBS_O_WORKDIR
+fi
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt $make_target 2>&1
 EOF
     

@@ -101,7 +101,7 @@ do
 	    for r in $(get_hic_files ${DATA_DIR}/${RES_FILE_NAME} ${pattern})
 	    do
 		ofile=$(basename ${r} | sed -e 's/.allValidPairs/_${bsize}/')
-		cmd="cat ${r} | ${SCRIPTS}/build_matrix --matrix-format ${MATRIX_FORMAT} ${bsize_opts} --chrsizes $GENOME_SIZE_FILE --ifile /dev/stdin --oprefix ${MATRIX_DIR}/${bsize}/${ofile}"
+		cmd="cat ${r} | ${SCRIPTS}/build_matrix --matrix-format ${MATRIX_FORMAT} ${bsize_opts} --chrsizes $GENOME_SIZE_FILE --ifile /dev/stdin --oprefix ${MATRIX_DIR}/${bsize}/${ofile} &"
 		exec_cmd $cmd >> ${ldir}/build_raw_maps.log 2>&1
 	    done
 	done
