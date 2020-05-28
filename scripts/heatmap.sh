@@ -81,8 +81,8 @@ for RES_FILE_NAME in ${DATA_DIR}/*;do
         abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
         iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
         prefix=$(basename ${iced_matrix} | sed 's/.matrix//g')
-        ln -s ${abs_bed} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
-        ln -s ${iced_matrix} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
+        #ln -s ${abs_bed} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
+        #ln -s ${iced_matrix} ${HEATMAP_DIR}/${RES_FILE_NAME}/${bsize}/ 2>/dev/null &
 
         if [[ ! -z ${HEATMAP_BIGWIG} ]]; then
             big_suffix=""
