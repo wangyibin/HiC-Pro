@@ -156,13 +156,16 @@ EOF
     echo qsub ${sge_script_qc}
 
 
-cat > "TDGP_qsub_all.sh" <<EOF
+    cat > TDGP_qsub_all.sh <<EOF
+#!/bin/bash
+qsub ${sge_script}
+qsub ${sge_script_tad}
+qsub ${sge_script_loops}
+qsub ${sge_script_qc}
 
-qsub ${torque_script}
-qsub ${torque_script_tad}
-qsub ${torque_script_loops}
-qsub ${torque_script_qc}
-EOF 
-    chmod +x "TDGP_qsub_all.sh"
+EOF
+
+
+    chmod +x TDGP_qsub_all.sh
     echo "The following command will submit all TDGP scripts:"
-    echo qsub "TDGP_qsub_all.sh"
+    echo qsub TDGP_qsub_all.sh
