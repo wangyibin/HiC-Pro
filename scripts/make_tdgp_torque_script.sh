@@ -138,7 +138,7 @@ EOF
     torque_script_qc=TDGP_qc_${JOB_NAME}.sh
     cat > ${torque_script_qc} <<EOF
 #!/bin/bash
-#PBS -l nodes=1:ppn=1,mem=${JOB_MEM},walltime=${JOB_WALLTIME}
+#PBS -l nodes=1:ppn=${N_CPU},mem=${JOB_MEM},walltime=${JOB_WALLTIME}
 #PBS -M ${JOB_MAIL}
 #PBS -m ae
 #PBS -j eo

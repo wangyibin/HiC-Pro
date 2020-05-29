@@ -141,7 +141,8 @@ EOF
 #$ -m ae
 #$ -j y
 #$ -N TDGP_qc_${JOB_NAME}
-##$ -q ${JOB_QUEUE}
+#$ -q ${JOB_QUEUE}
+#$ -pe mpi ${N_CPU}
 #$ -V
 #$ -cwd
 
