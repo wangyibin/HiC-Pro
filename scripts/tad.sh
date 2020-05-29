@@ -84,13 +84,17 @@ do
         RES_DIR=${TAD_DIR}/${RES_FILE_NAME}/${bsize}
         mkdir -p ${RES_DIR}
         echo "Logs: ${ldir}/tad_${bsize}.log"
-        
+        if [[ ! -e ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ || ! -e ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ ]]; then
+            cmd="generate_new_resolution.py -i ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -b ${bsize} -c ${GENOME_SIZE_FILE} -o ${DATA_DIR}/${RES_FILE_NAME}/ "
+            exec_cmd ${cmd} >> ${ldir}/heatmap_${bsize}.log 2>&1
+        fi
+
         abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
         iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
         prefix=$(basename ${iced_matrix} | sed 's/.matrix//g')
         #ln -s ${abs_bed} ${RES_DIR}/
         #ln -s ${iced_matrix} ${RES_DIR}/
-        if [[ ! -e abs_bed || ! -e iced_matrix ]]; then
+        if [[ ! -z $abs_bed || ! -z $iced_matrix ]]; then
             cmd="generate_new_resolution.py -i ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -b ${bsize} -c ${GENOME_SIZE_FILE} -o ${DATA_DIR}/${RES_FILE_NAME}/ "
             exec_cmd ${cmd} >> ${ldir}/heatmap_${bsize}.log 2>&1
 
