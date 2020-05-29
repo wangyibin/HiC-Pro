@@ -165,7 +165,8 @@ qsub ${torque_script_tad}
 qsub ${torque_script_loops}
 qsub ${torque_script_qc}
 
-EOF 
+EOF
+
 
     chmod +x TDGP_qsub_all.sh
     echo "The following command will submit all TDGP scripts:"
