@@ -91,7 +91,6 @@ do
 
         abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
         iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
-        prefix=$(basename ${iced_matrix} | sed 's/.matrix//g')
         #ln -s ${abs_bed} ${RES_DIR}/
         #ln -s ${iced_matrix} ${RES_DIR}/
         if [[ ! -z $abs_bed || ! -z $iced_matrix ]]; then
