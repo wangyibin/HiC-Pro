@@ -67,10 +67,10 @@ do
     echo "Logs: ${ldir}/qc.log"
 
     if [ -d ${DATA_DIR}/${RES_FILE_NAME} ]; then
-        cmd="python -m TDGP.analysis.qc validStat ${MAPC_OUTPUT}/stats/${RES_FILE_NAME}/ hicvalidPairs.stat -f 2 "
+        cmd="python -m TDGP.analysis.qc validStat ${MAPC_OUTPUT}/stats/${RES_FILE_NAME}/ ${QC_DIR}/${RES_FILE_NAME}/hicvalidPairs.stat -f 2 "
         exec_cmd $cmd >> ${ldir}/qc.log 2>&1
 
-        cmd="estimate_hic_resolution.py ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs ${GENOME_SIZE} -o ${QC_DIR}/${RES_FILE_NAME} -t ${N_CPU}"
+        cmd="estimate_hic_resolution.py ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs ${GENOME_SIZE} -o ${QC_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -t ${N_CPU}"
         exec_cmd $cmd >> ${ldir}/qc.log 2>&1
         
         
