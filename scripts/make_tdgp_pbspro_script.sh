@@ -46,8 +46,8 @@ else
 fi
 
     ## step 1 - parallel
-    torque_script=TDGP_com_heatmap_${JOB_NAME}.sh
-    cat > ${torque_script} <<EOF
+    pbspro_script=TDGP_com_heatmap_${JOB_NAME}.sh
+    cat > ${pbspro_script} <<EOF
 #!/bin/bash
 #PBS -l nodes=1:ppn=${N_CPU},mem=${JOB_MEM},walltime=${JOB_WALLTIME}
 #PBS -M ${JOB_MAIL}
@@ -59,28 +59,28 @@ fi
 EOF
 
     if [[ $count -gt 1 ]]; then
-	echo -e "#PBS -t 1-$count" >> ${torque_script} 
+	echo -e "#PBS -J 1-$count" >> ${pbspro_script} 
     fi
 
-cat >> ${torque_script} <<EOF
+cat >> ${pbspro_script} <<EOF
 if [ ! -z \$PBS_O_WORKDIR ]; then
 cd \$PBS_O_WORKDIR
 fi
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt com_heatmap 2>&1
 EOF
     
-    chmod +x ${torque_script}
+    chmod +x ${pbspro_script}
 
     ## User message
-    echo "The following command will launch the parallel workflow through $count torque jobs:"
-    echo qsub ${torque_script}
+    echo "The following command will launch the parallel workflow through $count pbspro jobs:"
+    echo qsub ${pbspro_script}
    
 
 
 ## make tad script
 
-    torque_script_tad=TDGP_tad_${JOB_NAME}.sh
-    cat > ${torque_script_tad} <<EOF
+    pbspro_script_tad=TDGP_tad_${JOB_NAME}.sh
+    cat > ${pbspro_script_tad} <<EOF
 #!/bin/bash
 #PBS -l nodes=1:ppn=${N_CPU},mem=${JOB_MEM},walltime=${JOB_WALLTIME}
 #PBS -M ${JOB_MAIL}
@@ -92,27 +92,27 @@ EOF
 EOF
 
     if [[ $tad_count -gt 1 ]]; then
-	echo -e "#PBS -t 1-$tad_count" >> ${torque_script_tad} 
+	echo -e "#PBS -J 1-$tad_count" >> ${pbspro_script_tad} 
     fi
 
-cat >> ${torque_script_tad} <<EOF
+cat >> ${pbspro_script_tad} <<EOF
 if [ ! -z \$PBS_O_WORKDIR ]; then
 cd \$PBS_O_WORKDIR
 fi
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt tad 2>&1
 EOF
     
-    chmod +x ${torque_script_tad}
+    chmod +x ${pbspro_script_tad}
 
     ## User message
-    echo "The following command will launch the parallel workflow through $count torque jobs:"
-    echo qsub ${torque_script_tad}
+    echo "The following command will launch the parallel workflow through $count pbspro jobs:"
+    echo qsub ${pbspro_script_tad}
 
 
 ## make loops script
 
-    torque_script_loops=TDGP_loops_${JOB_NAME}.sh
-    cat > ${torque_script_loops} <<EOF
+    pbspro_script_loops=TDGP_loops_${JOB_NAME}.sh
+    cat > ${pbspro_script_loops} <<EOF
 #!/bin/bash
 #PBS -l nodes=1:ppn=${N_CPU},mem=${JOB_MEM},walltime=${JOB_WALLTIME}
 #PBS -M ${JOB_MAIL}
@@ -127,16 +127,16 @@ fi
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt loops 2>&1
 EOF
     
-    chmod +x ${torque_script_loops}
+    chmod +x ${pbspro_script_loops}
 
     ## User message
     echo "The following command will launch the loops workflow:"
-    echo qsub ${torque_script_loops}
+    echo qsub ${pbspro_script_loops}
 
 ## make qc script
 
-    torque_script_qc=TDGP_qc_${JOB_NAME}.sh
-    cat > ${torque_script_qc} <<EOF
+    pbspro_script_qc=TDGP_qc_${JOB_NAME}.sh
+    cat > ${pbspro_script_qc} <<EOF
 #!/bin/bash
 #PBS -l nodes=1:ppn=${N_CPU},mem=${JOB_MEM},walltime=${JOB_WALLTIME}
 #PBS -M ${JOB_MAIL}
@@ -151,19 +151,19 @@ fi
 make --file ${SCRIPTS}/Makefile CONFIG_FILE=${conf_file} CONFIG_SYS=${INSTALL_PATH}/config-system.txt qc 2>&1
 EOF
     
-    chmod +x ${torque_script_qc}
+    chmod +x ${pbspro_script_qc}
 
     ## User message
     echo "The following command will launch qc workflow:"
-    echo qsub ${torque_script_qc}
+    echo qsub ${pbspro_script_qc}
 
 
     cat > TDGP_qsub_all.sh <<EOF
 #!/bin/bash 
-qsub ${torque_script}
-qsub ${torque_script_tad}
-qsub ${torque_script_loops}
-qsub ${torque_script_qc}
+qsub ${pbspro_script}
+qsub ${pbspro_script_tad}
+qsub ${pbspro_script_loops}
+qsub ${pbspro_script_qc}
 
 EOF
 
