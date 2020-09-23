@@ -34,15 +34,15 @@ CONF=$conf_file . $dir/hic.inc.sh
 unset FASTQFILE
 
 if [[ ! -z ${HEATMAP_BIN_SIZE} ]]; then
-    count=3
-else
     count=${#HEATMAP_BIN_SIZE[@]}
+else
+    count=3
 fi
 
 if [[ ! -z ${TAD_BIN_SIZE} ]]; then
-    tad_count=3
+    tad_count=${#TAD_BIN_SIZE[@]}
 else
-    tad_count=${#TADBIN_SIZE[@]}
+    tad_count=3
 fi
 
     ## step 1 - parallel

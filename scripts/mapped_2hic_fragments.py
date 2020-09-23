@@ -192,6 +192,7 @@ def get_ordered_reads(read1, read2):
             r2 = read1
                 
     return r1, r2
+    
 
 def load_restriction_fragment(in_file, minfragsize=None, maxfragsize=None, verbose=False):
     """

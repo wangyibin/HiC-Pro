@@ -6,15 +6,14 @@
 ## If not specified, the program will try to locate the executable
 ## using the 'which' command
 #######################################################################
-R_PATH = /public1/home/stu_wangyibin/packages/R-devel/bin
-BOWTIE2_PATH = /public1/home/stu_wangyibin/software/bowtie2-2.3.4.3-linux-x86_64/
-SAMTOOLS_PATH = /public1/home/geta/software/samtools-1.9/
-PYTHON_PATH = /public1/home/stu_wangyibin/software/anaconda2/bin
-INSTALL_PATH = /public1/home/stu_wangyibin/code/HiC-Pro
-SCRIPTS = /public1/home/stu_wangyibin/code/HiC-Pro/scripts
-SOURCES = /public1/home/stu_wangyibin/code/HiC-Pro/scripts/src
-JUICETOOLS = /public1/home/stu_wangyibin/software//juicer/juicer_tools_1.21.01.jar
-ANNOT_DIR = /public1/home/stu_wangyibin/code/HiC-Pro/annotation
-CLUSTER_SCRIPT = /public1/home/stu_wangyibin/code/HiC-Pro/scripts/make_sge_script.sh
-TDGP_CLUSTER_SCRIPT = /public1/home/stu_wangyibin/code/HiC-Pro/scripts/make_tdgp_sge_script.sh
-
+R_PATH = /share/home/stu_wangyibin/anaconda3/bin
+BOWTIE2_PATH = /share/home/stu_wangyibin/software/bowtie2-2.3.4.3-linux-x86_64
+SAMTOOLS_PATH = /share/home/stu_wangyibin/software/samtools-1.9
+PYTHON_PATH = /share/home/stu_wangyibin/anaconda3/envs/python2/bin
+INSTALL_PATH = /share/home/stu_wangyibin/code/HiC-Pro
+SCRIPTS = /share/home/stu_wangyibin/code/HiC-Pro/scripts
+SOURCES = /share/home/stu_wangyibin/code/HiC-Pro/scripts/src
+JUICETOOLS = /share/home/stu_wangyibin/software/juicer/juicer_tools_1.21.01.jar
+ANNOT_DIR = /share/home/stu_wangyibin/code/HiC-Pro/annotation
+CLUSTER_SCRIPT = /share/home/stu_wangyibin/code/HiC-Pro/scripts/make_pbspro_script.sh
+TDGP_CLUSTER_SCRIPT = /share/home/stu_wangyibin/code/HiC-Pro/scripts/make_tdgp_pbspro_script.sh

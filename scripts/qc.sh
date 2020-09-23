@@ -67,13 +67,26 @@ do
     echo "Logs: ${ldir}/qc.log"
 
     if [ -d ${DATA_DIR}/${RES_FILE_NAME} ]; then
-        cmd="python -m TDGP.analysis.qc validStat ${MAPC_OUTPUT}/stats/${RES_FILE_NAME}/ ${QC_DIR}/${RES_FILE_NAME}/hicvalidPairs.stat -f 2 "
+        cmd="python -m TDGP.analysis.qc validStat ${MAPC_OUTPUT}/stats/${RES_FILE_NAME}/ ${QC_DIR}/${RES_FILE_NAME}/hicvalidPairs.stat -f 2 &"
         exec_cmd $cmd >> ${ldir}/qc.log 2>&1
 
-        cmd="estimate_hic_resolution.py ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs ${GENOME_SIZE} -o ${QC_DIR}/${RES_FILE_NAME} -t ${N_CPU}"
+        cmd="python -m TDGP.analysis.qc validStat ${MAPC_OUTPUT}/stats/${RES_FILE_NAME}/ ${QC_DIR}/${RES_FILE_NAME}/Total_hicvalidPairs.stat -f 1 &"
+        exec_cmd $cmd >> ${ldir}/qc.log 2>&1
+
+        cmd="estimate_hic_resolution.py ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs ${GENOME_SIZE} -o ${QC_DIR}/${RES_FILE_NAME} -t ${N_CPU} & "
         exec_cmd $cmd >> ${ldir}/qc.log 2>&1
         
+        ## plot CT
+        cmd="plot_chromosome_territories_heatmap.py ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -c ${GENOME_SIZE} --outdir ${QC_DIR}/${RES_FILE_NAME}/ &"
+        exec_cmd $cmd >> ${ldir}/qc.log 2>&1
+        ## plot average IDE with slope
+        cmd="python -m TDGP.analysis.qc plotIDEMulti ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs --labels Intrachromosomal --plotSlope -o ${QC_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs.IDE_slope.pdf &"
+        exec_cmd $cmd >> ${ldir}/qc.log 2>&1
         
+        ## plot per chromosome IDE 
+        cmd="python -m TDGP.analysis.qc plotDistDensity ${DATA_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs  ${QC_DIR}/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs.perchr.2e7.pdf --xmax=2e7 &"
+        exec_cmd $cmd >> ${ldir}/qc.log 2>&1
+        wait
     fi
 
 done

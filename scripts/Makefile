@@ -32,7 +32,7 @@ quality_checks : hic_qc
 build_contact_maps: build_raw_maps
 
 tdgp_analysis: compartments heatmap tad loops qc
-com_heatmap: compartments heatmap
+com_heatmap: compartments heatmap heatmapWithoutBW
 
 ######################################
 ## System
@@ -215,6 +215,13 @@ heatmap:
 	@date 
 	@echo "Run heatmap plotting ..." 
 	@$(SCRIPTS)/heatmap.sh -c $(CONFIG_FILE)
+	@echo
+
+heatmapWithoutBW:
+	@echo "--------------------------------------------" 
+	@date 
+	@echo "Run heatmapWithoutBW plotting ..." 
+	@$(SCRIPTS)/heatmapWithoutBW.sh -c $(CONFIG_FILE)
 	@echo
 
 ######################################

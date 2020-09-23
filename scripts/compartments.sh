@@ -85,13 +85,22 @@ do
         fi
         RES_DIR=${COMPARTMENTS_DIR}/${RES_FILE_NAME}/${bsize}
         mkdir -p ${RES_DIR}
+        mkdir -p ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}
+        mkdir -p ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}
         echo "Logs: ${ldir}/compartments_${bsize}.log"
         
         abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
         iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
-        prefix=$(basename ${iced_matrix} | sed 's/.matrix//g')
+        if [[ ! -e $abs_bed || ! -e $iced_matrix ]]; then
+            cmd="generate_new_resolution.py -i ${MAPC_OUTPUT}/data/${RES_FILE_NAME}/${RES_FILE_NAME}.allValidPairs -b ${bsize} -c ${GENOME_SIZE_FILE} -o ${DATA_DIR}/${RES_FILE_NAME}/ "
+            exec_cmd ${cmd} >> ${ldir}/heatmap_${bsize}.log 2>&1
+
+        fi
+        abs_bed=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/raw/${bsize}/ -name "*_${bsize}_abs.bed")
+        iced_matrix=$(find -L ${DATA_DIR}/${RES_FILE_NAME}/iced/${bsize}/ -name "*_${bsize}_iced.matrix")
+        prefix=$( basename ${iced_matrix} | sed 's/.matrix//g')
         
-        cmd="run_cworld_ab.sh ${abs_bed} ${iced_matrix} ${CWORLD_SPECIES} ${GENOME_SIZE_FILE} ${RES_DIR} ${N_CPU} ${TE_DATA}" 
+        cmd="run_cworld_ab.sh ${abs_bed} ${iced_matrix} ${CWORLD_SPECIES} ${GENOME_SIZE_FILE} ${RES_DIR} ${N_CPU} ${RNA_DATA} ${TE_DATA}" 
         
         exec_cmd $cmd >>${ldir}/compartments_${bsize}.log 2>&1
 
